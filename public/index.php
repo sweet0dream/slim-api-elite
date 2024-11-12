@@ -11,11 +11,22 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $app = AppFactory::create();
 
 $app->addRoutingMiddleware();
-$app->add(new BasePathMiddleware($app));
-$app->addErrorMiddleware(true, true, true);
+$app
+    ->add(new BasePathMiddleware($app))
+    ->addErrorMiddleware(true, true, true)
+;
 
-$app->get('/', function (Request $request, Response $response) {
+$app->get('/users', function (Request $request, Response $response) {
     $response->getBody()->write(json_encode((new Db())->connect()->get('user')));
+
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+$app->get('/items', function (Request $request, Response $response) {
+    $response->getBody()->write(json_encode([
+        'headers' => $request->getHeaders(),
+        'items' => (new Db())->connect()->get('item')
+    ]));
 
     return $response->withHeader('Content-Type', 'application/json');
 });
