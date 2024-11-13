@@ -43,4 +43,9 @@ abstract class AbstractRepository
     {
         return $this->get($this->modelClass);
     }
+
+    public function findOne(int $id): ?array
+    {
+        return $this->get($this->modelClass, ['id' => $id]);
+    }
 }
