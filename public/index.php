@@ -1,5 +1,7 @@
 <?php
 
+use App\Repository\ItemRepository;
+use App\Repository\UserRepository;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Selective\BasePath\BasePathMiddleware;
@@ -17,7 +19,7 @@ $app
 ;
 
 $app->get('/users', function (Request $request, Response $response) {
-    $response->getBody()->write(json_encode((new Db())->connect()->get('user')));
+    $response->getBody()->write(json_encode((new UserRepository())->findAll()));
 
     return $response->withHeader('Content-Type', 'application/json');
 });
@@ -25,7 +27,7 @@ $app->get('/users', function (Request $request, Response $response) {
 $app->get('/items', function (Request $request, Response $response) {
     $response->getBody()->write(json_encode([
         'headers' => $request->getHeaders(),
-        'items' => (new Db())->connect()->get('item')
+        'items' => (new ItemRepository())->findAll()
     ]));
 
     return $response->withHeader('Content-Type', 'application/json');
