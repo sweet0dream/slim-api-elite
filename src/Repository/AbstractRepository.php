@@ -39,13 +39,25 @@ abstract class AbstractRepository
         }
     }
 
-    public function findAll(): array
+    public function findBy(array $criteria): array
     {
+        foreach ($criteria as $key => $value) {
+            $this->connect->where($key, $value);
+        }
         return $this->get($this->modelClass);
     }
 
     public function findOne(int $id): ?array
     {
         return $this->get($this->modelClass, ['id' => $id]);
+    }
+
+    public function findOneBy(array $criteria): ?array
+    {
+        foreach ($criteria as $key => $value) {
+            $this->connect->where($key, $value);
+        }
+
+        return $this->get($this->modelClass);
     }
 }
