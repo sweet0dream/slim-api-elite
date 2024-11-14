@@ -49,7 +49,7 @@ abstract class AbstractRepository
 
     public function findOne(int $id): ?array
     {
-        return $this->get($this->modelClass, ['id' => $id]);
+        return $this->get($this->modelClass, ['id' => $id])[0] ?? null;
     }
 
     public function findOneBy(array $criteria): ?array
@@ -58,6 +58,6 @@ abstract class AbstractRepository
             $this->connect->where($key, $value);
         }
 
-        return $this->get($this->modelClass);
+        return $this->get($this->modelClass)[0] ?? null;
     }
 }
