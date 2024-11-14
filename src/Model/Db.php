@@ -6,10 +6,10 @@ use MysqliDb;
 
 class Db
 {
-    private string $host = 'db-ms';
+    private string $host = 'mariadb';
     private string $user = 'root';
     private string $pass = '123456';
-    private string $dbname = 'slim';
+    private string $dbname = 'rest2';
 
     public function connect(): MysqliDb
     {

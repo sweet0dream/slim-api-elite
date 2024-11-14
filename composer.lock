@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "99c9455242ff742bcc4a485a17c38286",
+    "content-hash": "2eb40efab8c05ccd625cf07108c2a631",
     "packages": [
         {
             "name": "fig/http-message-util",
@@ -958,6 +958,48 @@
             "time": "2024-06-13T08:54:48+00:00"
         },
         {
+            "name": "sweet0dream/intim-anketa-contract",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sweet0dream/intim-anketa-contract.git",
+                "reference": "f232bfdf568e46d6a28ca70b8a314f9a37616fde"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sweet0dream/intim-anketa-contract/zipball/f232bfdf568e46d6a28ca70b8a314f9a37616fde",
+                "reference": "f232bfdf568e46d6a28ca70b8a314f9a37616fde",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Sweet0dream\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "sweet0dream",
+                    "email": "sweet0dream@proton.me",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Contract items for intim prepare types",
+            "support": {
+                "issues": "https://github.com/sweet0dream/intim-anketa-contract/issues",
+                "source": "https://github.com/sweet0dream/intim-anketa-contract/tree/main"
+            },
+            "time": "2024-11-14T17:03:38+00:00"
+        },
+        {
             "name": "symfony/polyfill-php80",
             "version": "v1.31.0",
             "source": {
@@ -1090,10 +1132,14 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "sweet0dream/intim-anketa-contract": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
-    "platform-dev": [],
+    "platform": {
+        "ext-http": "*"
+    },
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }

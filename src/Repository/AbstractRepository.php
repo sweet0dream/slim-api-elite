@@ -39,10 +39,15 @@ abstract class AbstractRepository
         }
     }
 
-    public function findBy(array $criteria): array
+    public function findBy(array $criteria, array $orderBy = []): array
     {
         foreach ($criteria as $key => $value) {
             $this->connect->where($key, $value);
+        }
+        if (!empty($orderBy)) {
+            foreach ($orderBy as $key => $value) {
+                $this->connect->orderBy($key, $value);
+            }
         }
         return $this->get($this->modelClass);
     }

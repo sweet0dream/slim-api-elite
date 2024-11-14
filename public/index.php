@@ -39,25 +39,31 @@ if (is_null($app->getContainer()->get('city'))) {
     });
 
     $app->get('/users', function (Request $request, Response $response) {
-        $response->getBody()->write(json_encode((new UserService($this->get('city')['id']))->all()));
+        $response->getBody()->write(json_encode((new UserService($this->get('city')))->all()));
 
         return $response->withHeader('Content-Type', 'application/json');
     });
 
     $app->get('/user/{id}', function (Request $request, Response $response, array $args) {
-        $response->getBody()->write(json_encode((new UserService($this->get('city')['id']))->get($args['id'])));
+        $response->getBody()->write(json_encode((new UserService($this->get('city')))->get($args['id'])));
 
         return $response->withHeader('Content-Type', 'application/json');
     });
 
     $app->get('/items', function (Request $request, Response $response) {
-        $response->getBody()->write(json_encode((new ItemService($this->get('city')['id']))->all()));
+        $response->getBody()->write(json_encode((new ItemService($this->get('city')))->all()));
+
+        return $response->withHeader('Content-Type', 'application/json');
+    });
+
+    $app->get('/items/ids', function (Request $request, Response $response, array $args) {
+        $response->getBody()->write(json_encode((new ItemService($this->get('city')))->getIdsActive()));
 
         return $response->withHeader('Content-Type', 'application/json');
     });
 
     $app->get('/item/{id}', function (Request $request, Response $response, array $args) {
-        $response->getBody()->write(json_encode((new ItemService($this->get('city')['id']))->get($args['id'])));
+        $response->getBody()->write(json_encode((new ItemService($this->get('city')))->get($args['id'])));
 
         return $response->withHeader('Content-Type', 'application/json');
     });

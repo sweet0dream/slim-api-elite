@@ -5,7 +5,8 @@
         "selective/basepath": "^2.2",
         "thingengineer/mysqli-database-class": "^2.9",
         "php-di/slim-bridge": "^3.4",
-        "ext-http": "*"
+        "ext-http": "*",
+        "sweet0dream/intim-anketa-contract": "dev-main"
     },
     "autoload": {
         "psr-4": {
