@@ -17,14 +17,6 @@ class ItemService
         $this->itemHelper = new ItemHelper();
     }
 
-    public function all(): array
-    {
-        return $this->itemHelper->prepareItems(
-            $this->repository->findBy(['city_id' => $this->city['id']]),
-            $this->city
-        );
-    }
-
     public function getIdsActive(): array
     {
         return $this->itemHelper->getAllIds(
