@@ -12,6 +12,8 @@ use Slim\Factory\AppFactory;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+(Dotenv\Dotenv::createImmutable(__DIR__ . '/../'))->load();
+
 $container = new Container();
 $container->set('city', function () {
     return isset($_SERVER['HTTP_DOMAIN']) ? (new CityService($_SERVER['HTTP_DOMAIN']))->getCity() : null;
