@@ -13,11 +13,6 @@ class ItemHelper
         return array_map(fn($item) => $item['id'], $items);
     }
 
-    public function prepareItems(array $items, array $city): array
-    {
-        return array_map(fn($item) => $this->prepareItem($item, $city), $items);
-    }
-
     public function prepareItem(array $item, array $city): array
     {
         $this->contract = new IntimAnketaContract($item['type']);
@@ -63,6 +58,34 @@ class ItemHelper
                 $item['view_day'],
                 $item['view_month'],
             ])
+        ];
+    }
+
+    public function prepareItemReviews(array $reviews): array
+    {
+        return [
+            'reviews' => count($reviews) > 0
+                ?[
+                    'count' => count($reviews),
+                    'value' => array_map(fn($review) => $this->getReview($review), $reviews)
+                ] : null,
+        ];
+    }
+
+    private function getReview(array $review): array
+    {
+        return [
+            'id' => $review['id'],
+            'rating' => $review['rating'],
+            'verify' => $review['verify'],
+            'date' => $review['created_at'],
+            'text' => str_contains($review['review'], '||')
+                ? [
+                    'client' => explode('||', $review['review'])[0],
+                    'answer' => explode('||', $review['review'])[1],
+                ] : [
+                    'client' => $review['review']
+                ]
         ];
     }
 
