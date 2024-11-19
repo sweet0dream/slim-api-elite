@@ -61,7 +61,13 @@ if (is_null($app->getContainer()->get('city'))) {
     $app->get('/item/{id}', function (Request $request, Response $response, array $args) {
         $itemService = new ItemService($this->get('city'));
         return (new ResponseHelper($response))->send(
-            $itemService->get($args['id']) +
+            $itemService->get($args['id'])
+        );
+    });
+
+    $app->get('/item/{id}/reviews', function (Request $request, Response $response, array $args) {
+        $itemService = new ItemService($this->get('city'));
+        return (new ResponseHelper($response))->send(
             $itemService->getReviews($args['id'])
         );
     });

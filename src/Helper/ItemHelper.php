@@ -63,13 +63,11 @@ class ItemHelper
 
     public function prepareItemReviews(array $reviews): array
     {
-        return [
-            'reviews' => count($reviews) > 0
-                ?[
-                    'count' => count($reviews),
-                    'value' => array_map(fn($review) => $this->getReview($review), $reviews)
-                ] : null,
-        ];
+        return count($reviews) > 0
+            ? [
+                'count' => count($reviews),
+                'value' => array_map(fn($review) => $this->getReview($review), $reviews)
+            ] : [];
     }
 
     private function getReview(array $review): array
