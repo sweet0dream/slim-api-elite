@@ -54,7 +54,7 @@ if (is_null($app->getContainer()->get('city'))) {
 
     $app->get('/items/ids', function (Request $request, Response $response) {
         return (new ResponseHelper($response))->send(
-            (new ItemService($this->get('city')))->getIdsActive()
+            (new ItemService($this->get('city')))->getIds()
         );
     });
 

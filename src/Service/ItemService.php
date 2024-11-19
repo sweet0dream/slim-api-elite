@@ -20,11 +20,11 @@ class ItemService
         $this->itemHelper = new ItemHelper();
     }
 
-    public function getIdsActive(): array
+    public function getIds(): array
     {
         return $this->itemHelper->getAllIds(
             $this->repository->findBy(
-                ['city_id' => $this->city['id'], 'status_active' => 1],
+                ['city_id' => $this->city['id']],
                 ['date_top' => 'DESC']
             )
         );
