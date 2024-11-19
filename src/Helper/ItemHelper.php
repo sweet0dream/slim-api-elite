@@ -37,7 +37,7 @@ class ItemHelper
             'service' => $this->getServiceItem(json_decode($item['service'], true)),
             'price' => $this->getPriceItem(json_decode($item['price'], true)),
             'dopinfo' => $item['dopinfo'],
-            'photo' => $item['photo'],
+            'photo' => $this->getPhotoItem($item['photo'], $item['id']),
             'rao' => $city['rao'][$item['rao']],
             'meta' => [
                 $this->contract->getSingularMeta()[$item['type']],
@@ -127,6 +127,20 @@ class ItemHelper
         }
 
         return $price ?? [];
+    }
+
+    private function getPhotoItem(string $photo, int $itemId): array
+    {
+        return array_map(
+            function($photo) use ($itemId) {
+                return sprintf(
+                    '/%s/%s.jpg',
+                    $itemId,
+                    $photo
+                );
+            },
+            explode(',', $photo)
+        );
     }
 
     private function getDateItem(array $item): array
