@@ -27,11 +27,12 @@ class ItemHelper
                 'key' => $item['type'],
                 'value' => $this->contract->getSingularMeta()[$item['type']],
             ],
-            'phone' => preg_replace(
-                '/^(\d{3})(\d{3})(\d{2})(\d{2})$/iu',
-                '+7($1)$2-$3-$4',
-                $item['phone']
-            ),
+            'phone' => $item['status_active']
+                ? preg_replace(
+                    '/^(\d{3})(\d{3})(\d{2})(\d{2})$/iu',
+                    '+7($1)$2-$3-$4',
+                    $item['phone']
+                ) : null,
             'info' => $this->getInfoItem(json_decode($item['info'], true)),
             'service' => $this->getServiceItem(json_decode($item['service'], true)),
             'price' => $this->getPriceItem(json_decode($item['price'], true)),
