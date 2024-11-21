@@ -9,6 +9,7 @@ class ResponseHelper
 {
     const int NOT_FOUND = 404;
     const int OK = 200;
+    const int BAD_REQUEST = 400;
 
     public function __construct(
         private readonly Response $response

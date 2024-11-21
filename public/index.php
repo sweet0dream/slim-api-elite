@@ -1,5 +1,7 @@
 <?php
 
+use App\Controller\CityController;
+use App\Controller\ItemsController;
 use App\Helper\ResponseHelper;
 use App\Service\CityService;
 use App\Service\ItemService;
@@ -26,51 +28,20 @@ $app
     ->addErrorMiddleware(true, true, true)
 ;
 
-if (is_null($app->getContainer()->get('city'))) {
+$city = $app->getContainer()->get('city');
+
+if (is_null($city)) {
     $app->get($_SERVER['REQUEST_URI'], function (Request $request, Response $response) {
         return (new ResponseHelper($response))->send(
-            ['message' => 'City not found'],
+            ['message' => 'Domain is undefined'],
             ResponseHelper::NOT_FOUND
         );
     });
 } else {
-    $app->get('/city', function (Request $request, Response $response) {
-        return (new ResponseHelper($response))->send(
-            $this->get('city')
-        );
-    });
-
-    $app->get('/users', function (Request $request, Response $response) {
-        return (new ResponseHelper($response))->send(
-            (new UserService($this->get('city')))->all()
-        );
-    });
-
-    $app->get('/user/{id}', function (Request $request, Response $response, array $args) {
-        return (new ResponseHelper($response))->send(
-            (new UserService($this->get('city')))->get($args['id'])
-        );
-    });
-
-    $app->get('/items/ids', function (Request $request, Response $response) {
-        return (new ResponseHelper($response))->send(
-            (new ItemService($this->get('city')))->getIds()
-        );
-    });
-
-    $app->get('/item/{id}', function (Request $request, Response $response, array $args) {
-        $itemService = new ItemService($this->get('city'));
-        return (new ResponseHelper($response))->send(
-            $itemService->get($args['id'])
-        );
-    });
-
-    $app->get('/item/{id}/reviews', function (Request $request, Response $response, array $args) {
-        $itemService = new ItemService($this->get('city'));
-        return (new ResponseHelper($response))->send(
-            $itemService->getReviews($args['id'])
-        );
-    });
+    $app->get('/city', CityController::class);
+    $app->get('/items/ids', ItemsController::class . ':getIds');
+    $app->get('/item/{id:[0-9]+}', ItemsController::class . ':getItem');
+    $app->get('/item/{id:[0-9]+}/reviews', ItemsController::class . ':getItemReviews');
 }
 
 $app->run();
