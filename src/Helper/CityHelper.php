@@ -50,11 +50,14 @@ class CityHelper
         return array_combine(
             array_values($this->getRouteCity($route)),
             array_map(function($v) use ($city) {
-                return array_map(
-                    function($i) use ($v) {
-                        return $v[1] . ' ' . $i;
-                    },
-                    $city
+                return array_merge(
+                    array_map(
+                        function($i) use ($v) {
+                            return $v[1] . ' ' . $i;
+                        },
+                        $city
+                    ),
+                    ['item' => $v]
                 );
             }, IntimAnketaContract::META)
         );
