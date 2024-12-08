@@ -1,16 +1,16 @@
 <?php
 
-use App\Controller\CityController;
-use App\Controller\ItemsController;
+use App\Controller\City\Get\CityController;
+use App\Controller\Items\Get\ItemReviewsController;
+use App\Controller\Items\Get\ItemsIdsController;
+use App\Controller\Items\Get\ItemController;
 use App\Helper\ResponseHelper;
 use App\Service\CityService;
-use App\Service\ItemService;
-use App\Service\UserService;
 use DI\Container;
-use Slim\Psr7\Response as Response;
-use Slim\Psr7\Request as Request;
 use Selective\BasePath\BasePathMiddleware;
 use Slim\Factory\AppFactory;
+use Slim\Psr7\Request as Request;
+use Slim\Psr7\Response as Response;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -30,6 +30,16 @@ $app
 
 $city = $app->getContainer()->get('city');
 
+$route = [
+    'get' => [
+        '/city' => CityController::class,
+        '/items/ids' => ItemsIdsController::class,
+        '/item/{id:[0-9]+}' => ItemController::class,
+        '/item/{id:[0-9]+}/reviews' => ItemReviewsController::class
+    ],
+    'post' => []
+];
+
 if (is_null($city)) {
     $app->get($_SERVER['REQUEST_URI'], function (Request $request, Response $response) {
         return (new ResponseHelper($response))->send(
@@ -38,10 +48,11 @@ if (is_null($city)) {
         );
     });
 } else {
-    $app->get('/city', CityController::class);
-    $app->get('/items/ids', ItemsController::class . ':getIds');
-    $app->get('/item/{id:[0-9]+}', ItemsController::class . ':getItem');
-    $app->get('/item/{id:[0-9]+}/reviews', ItemsController::class . ':getItemReviews');
+    foreach ($route as $method => $data) {
+        array_walk($data, function ($action, $url) use ($app, $method) {
+            $app->$method($url, $action);
+        });
+    }
 }
 
 $app->run();

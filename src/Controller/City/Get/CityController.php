@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\City\Get;
 
 use App\Helper\ResponseHelper;
 use Psr\Container\ContainerInterface;

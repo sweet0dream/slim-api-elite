@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Items\Get;
 
+use App\Helper\ResponseHelper;
 use App\Service\ItemService;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-use App\Helper\ResponseHelper;
 use Psr\Container\NotFoundExceptionInterface;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 
-class ItemsController
+class ItemReviewsController
 {
     private ItemService $itemService;
     public function __construct(
@@ -28,21 +28,7 @@ class ItemsController
         }
     }
 
-    public function getIds(): Response {
-        return $this->responseHelper->send(
-            $this->itemService->getIds()
-        );
-    }
-
-    public function getItem(Request $request): Response {
-        return $this->responseHelper->send(
-            $this->itemService->get(
-                $request->getAttribute('id')
-            )
-        );
-    }
-
-    public function getItemReviews(Request $request): Response
+    public function __invoke(Request $request): Response
     {
         return $this->responseHelper->send(
             $this->itemService->getReviews(
