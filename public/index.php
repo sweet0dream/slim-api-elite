@@ -3,7 +3,7 @@
 use App\Controller\City\Get\Main as GetCity;
 use App\Controller\Items\Get\Reviews as GetItemReviews;
 use App\Controller\Items\Get\Ids as GetIds;
-use App\Controller\Items\Get\Item as GetItem;
+use App\Controller\Items\Get\Items as GetItem;
 use App\Controller\Items\Get\Field as GetField;
 use App\Helper\ResponseHelper;
 use App\Service\CityService;

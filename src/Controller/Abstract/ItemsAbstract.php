@@ -8,7 +8,7 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-class ItemAbstract
+class ItemsAbstract
 {
     protected ItemService $itemService;
     public function __construct(

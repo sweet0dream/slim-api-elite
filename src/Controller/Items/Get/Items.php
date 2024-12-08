@@ -2,11 +2,11 @@
 
 namespace App\Controller\Items\Get;
 
-use App\Controller\Abstract\ItemAbstract;
+use App\Controller\Abstract\ItemsAbstract;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 
-class Item extends ItemAbstract
+class Items extends ItemsAbstract
 {
     public function __invoke(Request $request): Response
     {
