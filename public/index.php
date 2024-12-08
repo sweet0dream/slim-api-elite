@@ -1,9 +1,10 @@
 <?php
 
-use App\Controller\City\Get\CityController;
-use App\Controller\Items\Get\ItemReviewsController;
-use App\Controller\Items\Get\ItemsIdsController;
-use App\Controller\Items\Get\ItemController;
+use App\Controller\City\Get\Main as GetCity;
+use App\Controller\Items\Get\Reviews as GetItemReviews;
+use App\Controller\Items\Get\Ids as GetIds;
+use App\Controller\Items\Get\Item as GetItem;
+use App\Controller\Items\Get\Field as GetField;
 use App\Helper\ResponseHelper;
 use App\Service\CityService;
 use DI\Container;
@@ -32,10 +33,11 @@ $city = $app->getContainer()->get('city');
 
 $route = [
     'get' => [
-        '/city' => CityController::class,
-        '/items/ids' => ItemsIdsController::class,
-        '/item/{id:[0-9]+}' => ItemController::class,
-        '/item/{id:[0-9]+}/reviews' => ItemReviewsController::class
+        '/city' => GetCity::class,
+        '/items/ids' => GetIds::class,
+        '/item/{id:[0-9]+}' => GetItem::class,
+        '/item/{id:[0-9]+}/reviews' => GetItemReviews::class,
+        '/item/field/{type}' => GetField::class
     ],
     'post' => []
 ];

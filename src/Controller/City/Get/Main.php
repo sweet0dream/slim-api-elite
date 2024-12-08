@@ -6,7 +6,7 @@ use App\Helper\ResponseHelper;
 use Psr\Container\ContainerInterface;
 use Slim\Psr7\Response;
 
-readonly class CityController
+readonly class Main
 {
     public function __construct(
         private ContainerInterface $container,

@@ -157,4 +157,9 @@ class ItemHelper
     {
         return array_combine(['day', 'month'], $item);
     }
+
+    public static function getField(string $type): ?array
+    {
+        return (new IntimAnketaContract($type))->getField();
+    }
 }

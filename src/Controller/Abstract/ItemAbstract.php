@@ -1,21 +1,19 @@
 <?php
 
-namespace App\Controller\Items\Get;
+namespace App\Controller\Abstract;
 
 use App\Helper\ResponseHelper;
 use App\Service\ItemService;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Slim\Psr7\Request;
-use Slim\Psr7\Response;
 
-class ItemReviewsController
+class ItemAbstract
 {
-    private ItemService $itemService;
+    protected ItemService $itemService;
     public function __construct(
         private readonly ContainerInterface $container,
-        private readonly ResponseHelper $responseHelper
+        protected readonly ResponseHelper $responseHelper,
     )
     {
         try {
@@ -26,14 +24,5 @@ class ItemReviewsController
                 ResponseHelper::BAD_REQUEST
             );
         }
-    }
-
-    public function __invoke(Request $request): Response
-    {
-        return $this->responseHelper->send(
-            $this->itemService->getReviews(
-                $request->getAttribute('id')
-            )
-        );
     }
 }
