@@ -3,8 +3,9 @@
 use App\Controller\City\Get\Main as GetCity;
 use App\Controller\Items\Get\Reviews as GetItemReviews;
 use App\Controller\Items\Get\Ids as GetIds;
-use App\Controller\Items\Get\Items as GetItem;
+use App\Controller\Items\Get\Item as GetItem;
 use App\Controller\Items\Get\Field as GetField;
+use App\Controller\Users\Get\User as GetUser;
 use App\Helper\ResponseHelper;
 use App\Service\CityService;
 use DI\Container;
@@ -37,7 +38,8 @@ $route = [
         '/items/ids' => GetIds::class,
         '/item/{id:[0-9]+}' => GetItem::class,
         '/item/{id:[0-9]+}/reviews' => GetItemReviews::class,
-        '/item/field/{type}' => GetField::class
+        '/item/field/{type}' => GetField::class,
+        '/user/{id:[0-9]+}' => GetUser::class
     ],
     'post' => []
 ];
