@@ -65,4 +65,9 @@ abstract class AbstractRepository
 
         return $this->get($this->modelClass)[0] ?? null;
     }
+
+    public function updateById(int $id, array $data): bool
+    {
+        return $this->connect->where('id', $id)->update($this->modelClass, $data);
+    }
 }

@@ -6,6 +6,8 @@ use App\Controller\Items\Get\Ids as GetIds;
 use App\Controller\Items\Get\Item as GetItem;
 use App\Controller\Items\Get\Field as GetField;
 use App\Controller\Users\Get\User as GetUser;
+use App\Controller\Users\Post\Login as LoginUser;
+use App\Controller\Users\Post\Regin as ReginUser;
 use App\Helper\ResponseHelper;
 use App\Service\CityService;
 use DI\Container;
@@ -41,11 +43,15 @@ $route = [
         '/item/field/{type}' => GetField::class,
         '/user/{id:[0-9]+}' => GetUser::class
     ],
-    'post' => []
+    'post' => [
+        '/user/login' => LoginUser::class,
+        '/user/regin' => ReginUser::class
+    ]
 ];
 
 if (is_null($city)) {
-    $app->get($_SERVER['REQUEST_URI'], function (Request $request, Response $response) {
+    $method = strtolower($_SERVER['REQUEST_METHOD']);
+    $app->$method($_SERVER['REQUEST_URI'], function (Request $request, Response $response) {
         return (new ResponseHelper($response))->send(
             ['message' => 'Domain is undefined'],
             ResponseHelper::NOT_FOUND

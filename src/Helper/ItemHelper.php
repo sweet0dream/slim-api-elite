@@ -13,53 +13,57 @@ class ItemHelper
         return array_map(fn($item) => $item['id'], $items);
     }
 
-    public function prepareItem(array $item, array $city): array
+    public function prepareItem(?array $item, array $city): ?array
     {
-        $this->contract = new IntimAnketaContract($item['type']);
+        if (!is_null($item)) {
+            $this->contract = new IntimAnketaContract($item['type']);
 
-        return [
-            'id' => $item['id'],
-            'relation' => [
-                'city_id' => $item['city_id'],
-                'user_id' => $item['user_id'],
-            ],
-            'type' => [
-                'key' => $item['type'],
-                'value' => $this->contract->getSingularMeta()[$item['type']],
-            ],
-            'phone' => $item['status_active']
-                ? preg_replace(
-                    '/^(\d{3})(\d{3})(\d{2})(\d{2})$/iu',
-                    '+7($1)$2-$3-$4',
-                    $item['phone']
-                ) : null,
-            'info' => $this->getInfoItem(json_decode($item['info'], true)),
-            'service' => $this->getServiceItem(json_decode($item['service'], true)),
-            'price' => $this->getPriceItem(json_decode($item['price'], true)),
-            'dopinfo' => $item['dopinfo'],
-            'photo' => $this->getPhotoItem($item['photo'], $item['id']),
-            'rao' => $city['rao'][$item['rao']],
-            'meta' => [
-                $this->contract->getSingularMeta()[$item['type']],
-                $this->contract->getPluralMeta()[$item['type']],
-                $this->contract->getPluralMeta()[$item['type']] . ' ' . $city['name'][1]
-            ],
-            'date' => $this->getDateItem([
-                $item['date_add'],
-                $item['date_edit'],
-                $item['date_top']
-            ]),
-            'status' => $this->getStatusItem([
-                $item['status_active'],
-                $item['status_premium'],
-                $item['status_vip'],
-                $item['status_real'],
-            ]),
-            'view' => $this->getViewItem([
-                $item['view_day'],
-                $item['view_month'],
-            ])
-        ];
+            return [
+                'id' => $item['id'],
+                'relation' => [
+                    'city_id' => $item['city_id'],
+                    'user_id' => $item['user_id'],
+                ],
+                'type' => [
+                    'key' => $item['type'],
+                    'value' => $this->contract->getSingularMeta()[$item['type']],
+                ],
+                'phone' => $item['status_active']
+                    ? preg_replace(
+                        '/^(\d{3})(\d{3})(\d{2})(\d{2})$/iu',
+                        '+7($1)$2-$3-$4',
+                        $item['phone']
+                    ) : null,
+                'info' => $this->getInfoItem(json_decode($item['info'], true)),
+                'service' => $this->getServiceItem(json_decode($item['service'], true)),
+                'price' => $this->getPriceItem(json_decode($item['price'], true)),
+                'dopinfo' => $item['dopinfo'],
+                'photo' => $this->getPhotoItem($item['photo'], $item['id']),
+                'rao' => $city['rao'][$item['rao']],
+                'meta' => [
+                    $this->contract->getSingularMeta()[$item['type']],
+                    $this->contract->getPluralMeta()[$item['type']],
+                    $this->contract->getPluralMeta()[$item['type']] . ' ' . $city['name'][1]
+                ],
+                'date' => $this->getDateItem([
+                    $item['date_add'],
+                    $item['date_edit'],
+                    $item['date_top']
+                ]),
+                'status' => $this->getStatusItem([
+                    $item['status_active'],
+                    $item['status_premium'],
+                    $item['status_vip'],
+                    $item['status_real'],
+                ]),
+                'view' => $this->getViewItem([
+                    $item['view_day'],
+                    $item['view_month'],
+                ])
+            ];
+        }
+
+        return null;
     }
 
     public function prepareItemReviews(array $reviews): array
