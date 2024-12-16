@@ -32,24 +32,29 @@ class UserService
         );
     }
 
-    public function login(array $data): ?array
+    public function login(array $data): array
     {
         $user = $this->repository->findOneBy([
             'login' => $data['login'],
             'city_id' => $this->city['id']
         ]);
 
-        if (
-            $user
-            && password_verify($data['password'], $user['password'])
-            && $this->repository->updateById($user['id'], ['hash' => $this->userHelper->generateAuthHash()])
-        ) {
-            return $this->userHelper->loginUser(
-                    $this->repository->findOneBy(['id' => $user['id']])
+        $errorMessage = match (true) {
+            is_null($user) => 'User not found',
+            !password_verify($data['password'], $user['password']) => 'Wrong password',
+            default => null
+        };
+
+        if (is_null($errorMessage)) {
+            $user = $this->repository->updateById(
+                $user['id'],
+                ['hash' => $this->userHelper->generateAuthHash()]
             );
         }
 
-        return null;
+        return $errorMessage
+            ? ['error' => $errorMessage]
+            : $this->userHelper->loginUser($user);
     }
 
     public function regin(array $data): ?array
