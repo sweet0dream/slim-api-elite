@@ -34,12 +34,15 @@ class UserService
 
     public function login(array $data): array
     {
+        $validated = $this->userHelper->validateField($data, UserHelper::FIELD_LOGIN);
+
         $user = $this->repository->findOneBy([
             'login' => $data['login'],
             'city_id' => $this->city['id']
         ]);
 
         $errorMessage = match (true) {
+            !is_null($validated) => $validated,
             is_null($user) => 'User not found',
             !password_verify($data['password'], $user['password']) => 'Wrong password',
             default => null
@@ -57,19 +60,36 @@ class UserService
             : $this->userHelper->loginUser($user);
     }
 
-    public function regin(array $data): ?array
+    public function regin(array $data): array
     {
-        $data = [
-            'city_id' => $this->city['id'],
-            'type' => $data['type'] ?? 'reg',
-            'login' => $data['login'],
-            'password' => password_hash($data['password'], PASSWORD_DEFAULT),
-            'password_view' => base64_encode($data['password']),
-            'phone' => $data['phone'],
-            'code' => base64_encode($data['code']),
-            'balance' => $this->city['user']['start_balance'],
-        ];
+        $validated = $this->userHelper->validateField($data, UserHelper::FIELD_REGIN);
 
-        return $data;
+        $existUser = $this->repository->findOneBy(['login' => $data['login']]);
+
+        $errorMessage = match (true) {
+            !is_null($validated) => $validated,
+            !is_null($existUser) => 'Login already exist',
+            default => null
+        };
+
+        if (is_null($errorMessage)) {
+            $user = $this->repository->insert([
+                'city_id' => $this->city['id'],
+                'type' => $data['type'] ?? 'reg',
+                'login' => $data['login'],
+                'password' => password_hash($data['password'], PASSWORD_DEFAULT),
+                'password_view' => base64_encode($data['password']),
+                'phone' => $data['phone'],
+                'code' => base64_encode($data['code']),
+                'balance' => $this->city['user']['start_balance'],
+            ]);
+
+            return $this->login([
+                'login' => $user['login'],
+                'password' => $data['password'],
+            ]);
+        }
+
+        return ['error' => $errorMessage];
     }
 }

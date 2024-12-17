@@ -3,6 +3,7 @@
 namespace App\Controller\Users\Post;
 
 use App\Controller\Abstract\UsersAbstract;
+use App\Helper\ResponseHelper;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 
@@ -18,7 +19,8 @@ class Regin extends UsersAbstract
         );
 
         return $this->responseHelper->send(
-            $user
+            $user,
+            $user['error'] ? ResponseHelper::NOT_FOUND : ResponseHelper::CREATED
         );
     }
 }

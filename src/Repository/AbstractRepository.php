@@ -72,4 +72,11 @@ abstract class AbstractRepository
 
         return $this->findOneBy(['id' => $id]);
     }
+
+    public function insert(array $data): array
+    {
+        $this->connect->insert($this->modelClass, $data);
+
+        return $this->findOneBy(['id' => $this->connect->getInsertId()]);
+    }
 }
