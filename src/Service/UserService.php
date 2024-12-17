@@ -92,4 +92,37 @@ class UserService
 
         return ['error' => $errorMessage];
     }
+
+    public function remove(int $id): bool
+    {
+        $user = $this->repository->findOneBy([
+            'id' => $id,
+        ]);
+
+        return !is_null($user) && $this->repository->deleteById($user['id']);
+    }
+
+    public function update(
+        int $id,
+        array $data,
+        string $field
+    ): array
+    {
+        $value = $data[$field] ?? null;
+
+        if (empty($value)) {
+            $errorMessage = 'Field {' . $field . '} value empty';
+        }
+
+        $value = match ($field) {
+            UserHelper::FIELD_PASSWORD => password_hash($value, PASSWORD_DEFAULT),
+            default => $value,
+        };
+
+        return $errorMessage ? ['error' => $errorMessage] : [
+            'id' => $id,
+            'value' => $value,
+            'field' => $field,
+        ];
+    }
 }

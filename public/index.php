@@ -8,6 +8,8 @@ use App\Controller\Items\Get\Field as GetField;
 use App\Controller\Users\Get\User as GetUser;
 use App\Controller\Users\Post\Login as LoginUser;
 use App\Controller\Users\Post\Regin as ReginUser;
+use App\Controller\Users\Put\Update as UpdateUser;
+use App\Controller\Users\Delete\Remove as RemoveUser;
 use App\Helper\ResponseHelper;
 use App\Service\CityService;
 use DI\Container;
@@ -46,6 +48,13 @@ $route = [
     'post' => [
         '/user/login' => LoginUser::class,
         '/user/regin' => ReginUser::class
+    ],
+    'put' => [
+        '/user/{id:[0-9]+}/password' => UpdateUser::class,
+        '/user/{id:[0-9]+}/phone' => UpdateUser::class
+    ],
+    'delete' => [
+        '/user/{id:[0-9]+}' => RemoveUser::class
     ]
 ];
 

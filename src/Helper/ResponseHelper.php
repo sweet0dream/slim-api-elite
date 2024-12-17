@@ -10,6 +10,7 @@ class ResponseHelper
     const int NOT_FOUND = 404;
     const int OK = 200;
     const int CREATED = 201;
+    const int NO_CONTENT = 204;
     const int BAD_REQUEST = 400;
 
     public function __construct(

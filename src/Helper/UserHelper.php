@@ -6,14 +6,16 @@ use DateTimeImmutable;
 
 class UserHelper
 {
+    public const string FIELD_PASSWORD = 'password';
+    public const string FIELD_PHONE = 'phone';
     public const array FIELD_LOGIN = [
         'login',
-        'password'
+        self::FIELD_PASSWORD
     ];
     public const array FIELD_REGIN = [
         'login',
         'password',
-        'phone',
+        self::FIELD_PHONE,
         'code'
     ];
 

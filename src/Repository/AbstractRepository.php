@@ -79,4 +79,9 @@ abstract class AbstractRepository
 
         return $this->findOneBy(['id' => $this->connect->getInsertId()]);
     }
+
+    public function deleteById(int $id): bool
+    {
+        return $this->connect->where('id', $id)->delete($this->modelClass);
+    }
 }
