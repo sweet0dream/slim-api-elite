@@ -11,7 +11,7 @@ class Login extends UsersAbstract
 {
     public function __invoke(Request $request): Response
     {
-        $user = $this->userService->login(
+        $result = $this->userService->login(
             json_decode(
                 $request->getBody()->getContents(),
                 true
@@ -19,8 +19,8 @@ class Login extends UsersAbstract
         );
 
         return $this->responseHelper->send(
-            $user,
-            $user['error'] ? ResponseHelper::NOT_FOUND : ResponseHelper::CREATED
+            $result,
+            $result['error'] ? ResponseHelper::NOT_FOUND : ResponseHelper::CREATED
         );
     }
 }

@@ -11,21 +11,20 @@ class Update extends UsersAbstract
 {
     public function __invoke(Request $request): Response
     {
-
         $pathUrl = explode('/', $request->getUri()->getPath());
 
+        $result = $this->userService->update(
+            $request->getAttribute('id'),
+            json_decode(
+                $request->getBody()->getContents(),
+                true
+            ),
+            end($pathUrl)
+        );
+
         return $this->responseHelper->send(
-            [
-                'result' => $this->userService->update(
-                    $request->getAttribute('id'),
-                    json_decode(
-                        $request->getBody()->getContents(),
-                        true
-                    ),
-                    end($pathUrl)
-                )
-            ],
-            ResponseHelper::OK
+            $result,
+            $result['error'] ? ResponseHelper::BAD_REQUEST : ResponseHelper::NO_CONTENT
         );
     }
 }

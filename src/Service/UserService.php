@@ -110,19 +110,21 @@ class UserService
     {
         $value = $data[$field] ?? null;
 
-        if (empty($value)) {
-            $errorMessage = 'Field {' . $field . '} value empty';
-        }
+        $user = $this->repository->findOneBy(['id' => $id]);
 
-        $value = match ($field) {
-            UserHelper::FIELD_PASSWORD => password_hash($value, PASSWORD_DEFAULT),
-            default => $value,
+        $errorMessage = match (true) {
+            is_null($user) => 'User not found',
+            empty($value) => 'Field {' . $field . '} value empty',
+            default => null
         };
 
-        return $errorMessage ? ['error' => $errorMessage] : [
-            'id' => $id,
-            'value' => $value,
-            'field' => $field,
-        ];
+        if (is_null($errorMessage)) {
+            $user = $this->repository->updateById($user['id'], [$field => match ($field) {
+                UserHelper::FIELD_PASSWORD => password_hash($value, PASSWORD_DEFAULT),
+                default => $value,
+            }]);
+        }
+
+        return $errorMessage ? ['error' => $errorMessage] : [];
     }
 }
