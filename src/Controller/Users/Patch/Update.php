@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Users\Put;
+namespace App\Controller\Users\Patch;
 
 use App\Controller\Abstract\UsersAbstract;
 use App\Helper\ResponseHelper;

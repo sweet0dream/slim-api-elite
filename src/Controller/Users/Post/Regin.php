@@ -20,7 +20,7 @@ class Regin extends UsersAbstract
 
         return $this->responseHelper->send(
             $result,
-            $result['error'] ? ResponseHelper::NOT_FOUND : ResponseHelper::CREATED
+            $result['error'] ? ResponseHelper::BAD_REQUEST : ResponseHelper::CREATED
         );
     }
 }

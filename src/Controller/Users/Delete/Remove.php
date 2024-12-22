@@ -16,8 +16,8 @@ class Remove extends UsersAbstract
         );
 
         return $this->responseHelper->send(
-            ['result' => $result],
-            $result ? ResponseHelper::NO_CONTENT : ResponseHelper::BAD_REQUEST
+            ['error' => $result ? 'User removed' : 'User not found'],
+            $result ? ResponseHelper::NO_CONTENT : ResponseHelper::NOT_FOUND
         );
     }
 }
