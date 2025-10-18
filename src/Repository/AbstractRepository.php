@@ -42,16 +42,23 @@ abstract class AbstractRepository
     /**
      * @throws Exception
      */
-    public function findBy(array $criteria, array $orderBy = []): array
-    {
+    public function findBy(
+        array $criteria,
+        ?array $orderBy = null
+    ): array {
         foreach ($criteria as $key => $value) {
-            $this->connect->where($key, $value);
+            if (is_array($value)) {
+                $this->connect->where($key, $value, 'IN');
+            } else {
+                $this->connect->where($key, $value);
+            }
         }
-        if (!empty($orderBy)) {
+        if (!is_null($orderBy)) {
             foreach ($orderBy as $key => $value) {
                 $this->connect->orderBy($key, $value);
             }
         }
+
         return $this->get($this->modelClass);
     }
 
@@ -78,8 +85,10 @@ abstract class AbstractRepository
     /**
      * @throws Exception
      */
-    public function updateById(int $id, array $data): array
-    {
+    public function updateById(
+        int $id,
+        array $data
+    ): array {
         $this->connect->where('id', $id)->update($this->modelClass, $data);
 
         return $this->findOneBy(['id' => $id]);

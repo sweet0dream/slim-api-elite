@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
-class UserRepository extends AbstractRepository
+final class OrderRepository extends AbstractRepository
 {
-    const string TABLE_REPOSITORY = 'user';
+    const string TABLE_REPOSITORY = 'oc_order';
     public function __construct(
         private readonly string $model = self::TABLE_REPOSITORY
     ) {
